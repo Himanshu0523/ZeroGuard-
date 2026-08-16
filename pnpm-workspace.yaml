@@ -1,2 +1,9 @@
 packages:
   - 'packages/*'
+allowBuilds:
+  '@scarf/scarf': true
+  '@vscode/vsce-sign': set this to true or false
+  esbuild: true
+  keytar: set this to true or false
+  tree-sitter: true
+  tree-sitter-typescript: true

@@ -37,7 +37,7 @@ export class RemediationEngine {
     const tempFile = path.join(tempDir, path.basename(filePath));
     fs.writeFileSync(tempFile, patchedContent);
 
-    const scanResult = await this.scanner.scanFile(tempFile, patchedContent);
+    const scanResult = await this.scanner.scanFile(tempFile);
 
     const originalStillPresent = scanResult.findings.some(f =>
       f.ruleId === finding.ruleId &&

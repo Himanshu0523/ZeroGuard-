@@ -1,5 +1,5 @@
 import { Spectral, Document } from '@stoplight/spectral-core';
-import { Parsers } from '@stoplight/spectral-parsers';
+import { Yaml } from '@stoplight/spectral-parsers';
 import * as fs from 'fs/promises';
 
 /**
@@ -20,7 +20,7 @@ export class SpecLinter {
 
   async lint(specFilePath: string) {
     const content = await fs.readFile(specFilePath, 'utf-8');
-    const doc = new Document(content, Parsers.Yaml, specFilePath);
+    const doc = new Document(content, Yaml, specFilePath);
     const results = await this.spectral.run(doc);
     return results;
   }

@@ -40,8 +40,9 @@ export class RuleEvaluator {
     }
     if ('fact' in condition) {
       const value = facts[condition.fact];
-      if (condition.value !== undefined) {
-        return value === condition.value;
+      const targetVal = 'value' in condition ? (condition as any).value : undefined;
+      if (targetVal !== undefined) {
+        return value === targetVal;
       }
       return Boolean(value);
     }

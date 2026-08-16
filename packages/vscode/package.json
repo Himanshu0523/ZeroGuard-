@@ -4,15 +4,15 @@
   "description": "Real-time OWASP API Security Top 10 vulnerability detection in VS Code",
   "version": "0.0.1",
   "publisher": "zeroguard",
+  "icon": "media/logo.png",
   "license": "Apache-2.0",
-  "icon": "media/logo.svg",
   "engines": {
     "vscode": "^1.85.0"
   },
   "categories": [
-    "Security",
     "Linters",
-    "Programming Languages"
+    "Programming Languages",
+    "Other"
   ],
   "keywords": [
     "api",
@@ -82,14 +82,15 @@
   },
   "scripts": {
     "build": "tsc",
-    "watch": "tsc -w"
+    "watch": "tsc -w",
+    "package": "vsce package"
   },
   "devDependencies": {
+    "@vscode/vsce": "^2.24.0",
     "@types/vscode": "^1.85.0",
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "@zeroguard/lsp": "workspace:*",
     "vscode-languageclient": "^9.0.0"
   }
 }

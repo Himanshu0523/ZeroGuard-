@@ -143,6 +143,8 @@ export type RuleCondition =
 export interface SecurityNode {
   id: string;
   type: SecurityNodeType;
+  /** Human readable label */
+  label?: string;
   /** Source location if from code */
   location?: SourceLocation;
   /** Additional metadata */
@@ -296,13 +298,21 @@ export interface ScanResult {
 }
 
 /**
- * Taint analysis result for a single flow.
+ * Result of remediation/fix verification.
  */
-export interface TaintFlow {
-  source: SourceLocation;
-  sink: SourceLocation;
-  sanitized: boolean;
-  sanitizer?: SourceLocation;
+export interface VerificationResult {
+  status: 'VERIFIED' | 'FAILED' | 'NEEDS_REVIEW';
+  newFindings: Finding[];
+  originalFindingStillPresent: boolean;
+  message: string;
+}
+
+export interface RemediationResult {
+  findingId: string;
+  fixIndex: number;
+  applied: boolean;
+  patch: string;
+  verification: VerificationResult;
 }
 
 export interface DetectedRoute {

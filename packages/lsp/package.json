@@ -3,9 +3,6 @@
   "version": "0.0.1",
   "description": "ZeroGuard Language Server Protocol (LSP) Server",
   "main": "dist/server.js",
-  "bin": {
-    "zeroguard-lsp": "dist/server.js"
-  },
   "scripts": {
     "build": "tsc",
     "dev": "tsc -w",
