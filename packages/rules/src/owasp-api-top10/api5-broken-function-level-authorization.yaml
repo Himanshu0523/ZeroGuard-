@@ -1,0 +1,31 @@
+id: api5-broken-function-level-authorization
+name: Broken Function Level Authorization
+category: authorization
+severity: high
+owasp: "API5:2023"
+description: "Endpoint performs administrative or privileged actions without role checks."
+conditions:
+  all:
+    - fact: endpoint.hasAuthentication
+    - not:
+        fact: endpoint.hasAuthorization
+    - fact: endpoint.isAdminEndpoint
+evidence:
+  - type: missing_role_check
+    description: "No role-based access control detected for admin endpoint"
+fixes:
+  - title: Add role-based access control
+    description: "Verify user role before allowing access"
+    code: |
+      const requireAdmin = (req, res, next) => {
+        if (req.user.role !== 'admin') return res.status(403).json({ error: 'Forbidden' });
+        next();
+      };
+      app.use('/admin', requireAdmin);
+    language: typescript
+    risk: manual
+    autoApplicable: false
+references:
+  - "https://owasp.org/API-Security/editions/2023/en/0xa5-broken-function-level-authorization/"
+confidence: 0.8
+enabled: true

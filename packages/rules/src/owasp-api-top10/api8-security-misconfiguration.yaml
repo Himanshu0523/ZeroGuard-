@@ -1,0 +1,30 @@
+id: api8-security-misconfiguration
+name: Security Misconfiguration
+category: misconfiguration
+severity: high
+owasp: "API8:2023"
+description: "Endpoint or API has misconfigurations such as CORS *, missing TLS, verbose errors."
+conditions:
+  any:
+    - fact: endpoint.hasCORSStar
+    - fact: endpoint.hasVerboseErrors
+evidence:
+  - type: cors_misconfiguration
+    description: "CORS policy allows any origin"
+  - type: verbose_errors
+    description: "Error responses leak stack traces"
+fixes:
+  - title: Restrict CORS and hide error details
+    description: "Set specific CORS origins and sanitize error responses"
+    code: |
+      app.use(cors({ origin: 'https://trusted.example.com' }));
+      app.use((err, req, res, next) => {
+        res.status(500).json({ error: 'Internal Server Error' });
+      });
+    language: typescript
+    risk: suggested
+    autoApplicable: false
+references:
+  - "https://owasp.org/API-Security/editions/2023/en/0xa8-security-misconfiguration/"
+confidence: 0.85
+enabled: true

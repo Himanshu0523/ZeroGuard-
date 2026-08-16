@@ -1,0 +1,31 @@
+{
+  "name": "zeroguard",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Zero-Trust API Security Scanner – open-source DevSecOps platform",
+  "license": "Apache-2.0",
+  "author": "ZeroGuard Contributors",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zeroguard/zeroguard.git"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,json,yaml,md}\"",
+    "clean": "turbo run clean"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "eslint": "^8.56.0",
+    "prettier": "^3.2.0",
+    "turbo": "^1.13.0",
+    "typescript": "^5.3.3"
+  }
+}

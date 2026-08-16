@@ -1,0 +1,40 @@
+id: api1-bola
+name: Broken Object Level Authorization
+category: authorization
+severity: critical
+owasp: "API1:2023"
+description: |
+  Endpoint accepts a user-controlled object ID but does not verify that the
+  requesting user owns that object.
+conditions:
+  all:
+    - fact: endpoint.hasUserInput
+    - fact: endpoint.accessesDatabase
+    - not:
+        fact: endpoint.hasAuthorization
+evidence:
+  - type: user_controlled_id
+    description: "Endpoint accepts a user-controlled object ID (path, query, or body)"
+  - type: database_access
+    description: "Endpoint performs a database query using the object ID"
+  - type: missing_authorization
+    description: "No ownership check or authorization middleware detected"
+fixes:
+  - title: Add ownership check middleware
+    description: "Ensure the resource belongs to the authenticated user"
+    code: |
+      const checkOwnership = async (req, res, next) => {
+        const resource = await Resource.findById(req.params.id);
+        if (resource.userId !== req.user.id) {
+          return res.status(403).json({ error: 'Forbidden' });
+        }
+        next();
+      };
+      app.get('/users/:id', checkOwnership, handler);
+    language: typescript
+    risk: manual
+    autoApplicable: false
+references:
+  - "https://owasp.org/API-Security/editions/2023/en/0xa1-broken-object-level-authorization/"
+confidence: 0.95
+enabled: true

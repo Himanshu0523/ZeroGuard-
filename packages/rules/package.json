@@ -1,0 +1,19 @@
+{
+  "name": "@zeroguard/rules",
+  "version": "0.0.0",
+  "description": "OWASP API Security Top 10 rule definitions for ZeroGuard",
+  "license": "Apache-2.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsc -w -p tsconfig.json",
+    "test": "vitest run",
+    "lint": "eslint src --ext .ts",
+    "clean": "node -e \"fs.rmSync('dist', { recursive: true, force: true }); fs.rmSync('coverage', { recursive: true, force: true });\""
+  },
+  "devDependencies": {
+    "vitest": "^1.3.0",
+    "typescript": "^5.3.3"
+  }
+}

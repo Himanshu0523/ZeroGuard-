@@ -1,0 +1,29 @@
+id: api2-broken-authentication
+name: Broken Authentication
+category: authentication
+severity: critical
+owasp: "API2:2023"
+description: "Endpoint lacks authentication, allowing unauthenticated access."
+conditions:
+  all:
+    - not:
+        fact: endpoint.hasAuthentication
+evidence:
+  - type: missing_authentication
+    description: "No authentication middleware or security scheme detected"
+fixes:
+  - title: Add authentication middleware
+    description: "Protect endpoint with JWT/OAuth validation"
+    code: |
+      const authenticateToken = (req, res, next) => {
+        // verify token...
+        next();
+      };
+      app.get('/protected', authenticateToken, handler);
+    language: typescript
+    risk: manual
+    autoApplicable: false
+references:
+  - "https://owasp.org/API-Security/editions/2023/en/0xa2-broken-authentication/"
+confidence: 0.9
+enabled: true

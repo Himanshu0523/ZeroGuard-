@@ -1,0 +1,36 @@
+id: api4-unrestricted-resource-consumption
+name: Unrestricted Resource Consumption
+category: resource-management
+severity: high
+owasp: "API4:2023"
+description: "Endpoint lacks rate limiting and/or pagination, allowing resource exhaustion."
+conditions:
+  all:
+    - not:
+        fact: endpoint.hasRateLimit
+    - not:
+        fact: endpoint.hasPagination
+evidence:
+  - type: missing_rate_limit
+    description: "No rate limiting header or middleware detected"
+  - type: missing_pagination
+    description: "No pagination parameters (limit/offset/page) detected"
+fixes:
+  - title: Add rate limiting and pagination
+    description: "Implement rate limit middleware and paginate list endpoints"
+    code: |
+      const rateLimit = require('express-rate-limit');
+      const limiter = rateLimit({ windowMs: 15*60*1000, max: 100 });
+      app.use('/api/', limiter);
+
+      app.get('/users', (req, res) => {
+        const { page = 1, limit = 20 } = req.query;
+        // ...
+      });
+    language: typescript
+    risk: suggested
+    autoApplicable: false
+references:
+  - "https://owasp.org/API-Security/editions/2023/en/0xa4-unrestricted-resource-consumption/"
+confidence: 0.85
+enabled: true

@@ -1,0 +1,25 @@
+id: api3-broken-property-level-authorization
+name: Broken Object Property Level Authorization
+category: data-exposure
+severity: high
+owasp: "API3:2023"
+description: "Endpoint returns sensitive fields (e.g., password, apiKey) in the response without filtering."
+conditions:
+  all:
+    - fact: endpoint.returnsSensitiveData
+evidence:
+  - type: sensitive_data_exposure
+    description: "Response includes sensitive field(s)"
+fixes:
+  - title: Use DTO to filter sensitive fields
+    description: "Create a Data Transfer Object excluding sensitive properties"
+    code: |
+      const { password, ...safeUser } = user;
+      res.json(safeUser);
+    language: typescript
+    risk: suggested
+    autoApplicable: false
+references:
+  - "https://owasp.org/API-Security/editions/2023/en/0xa3-broken-object-property-level-authorization/"
+confidence: 0.9
+enabled: true

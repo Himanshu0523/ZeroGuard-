@@ -1,0 +1,95 @@
+{
+  "name": "zeroguard",
+  "displayName": "ZeroGuard API Security Scanner",
+  "description": "Real-time OWASP API Security Top 10 vulnerability detection in VS Code",
+  "version": "0.0.1",
+  "publisher": "zeroguard",
+  "license": "Apache-2.0",
+  "icon": "media/logo.svg",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Security",
+    "Linters",
+    "Programming Languages"
+  ],
+  "keywords": [
+    "api",
+    "security",
+    "owasp",
+    "zero-trust",
+    "devsecops",
+    "scanner"
+  ],
+  "activationEvents": [
+    "onLanguage:typescript",
+    "onLanguage:javascript",
+    "onLanguage:yaml",
+    "onLanguage:json",
+    "onCommand:zeroguard.scan",
+    "onCommand:zeroguard.showRules",
+    "onCommand:zeroguard.openSettings"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "zeroguard.scan",
+        "title": "ZeroGuard: Scan File/Workspace",
+        "category": "Security"
+      },
+      {
+        "command": "zeroguard.showRules",
+        "title": "ZeroGuard: Show OWASP Rules",
+        "category": "Security"
+      },
+      {
+        "command": "zeroguard.openSettings",
+        "title": "ZeroGuard: Open Settings",
+        "category": "Security"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "zeroguard.scan",
+        "key": "ctrl+shift+z",
+        "mac": "cmd+shift+z",
+        "when": "editorTextFocus"
+      }
+    ],
+    "configuration": {
+      "title": "ZeroGuard",
+      "properties": {
+        "zeroguard.enableOnSave": {
+          "type": "boolean",
+          "default": true,
+          "description": "Scan automatically when a file is saved."
+        },
+        "zeroguard.severity": {
+          "type": "string",
+          "enum": ["critical", "high", "medium", "low", "info"],
+          "default": "low",
+          "description": "Minimum severity level to report."
+        },
+        "zeroguard.autoFix": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically apply safe fixes (not yet implemented)."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "@zeroguard/lsp": "workspace:*",
+    "vscode-languageclient": "^9.0.0"
+  }
+}
