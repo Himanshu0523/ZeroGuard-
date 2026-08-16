@@ -38,7 +38,6 @@ export class CodeParser {
    * Re-parse after incremental edit.
    */
   parseWithTree(code: string, oldTree: Parser.Tree, filePath: string) {
-    this.parser.setTimeoutMicros(10 * 1000);
     const newTree = this.parser.parse(code, oldTree);
     return this.convertNode(newTree.rootNode, code);
   }

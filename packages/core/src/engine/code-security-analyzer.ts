@@ -119,7 +119,7 @@ export class CodeSecurityAnalyzer {
         id: authzNodeId,
         type: 'authorization',
         label: 'Authorization check present',
-        metadata: { pattern: code.match(ownershipPatterns.find(p => p.test(code)) || rolePatterns.find(p => p.test(code)))?.toString() }
+        metadata: { pattern: code.match(ownershipPatterns.find(p => p.test(code)) ?? rolePatterns.find(p => p.test(code)) ?? /.*/)?.toString() }
       };
       this.addNode(graph, authzNode);
       this.addEdge(graph, endpointId, authzNodeId, 'HAS_AUTHZ');
@@ -175,7 +175,7 @@ export class CodeSecurityAnalyzer {
         id: authNodeId,
         type: 'authentication',
         label: 'Authentication middleware present',
-        metadata: { pattern: code.match(authPatterns.find(p => p.test(code)))?.toString() }
+        metadata: { pattern: code.match(authPatterns.find(p => p.test(code)) ?? /.*/)?.toString() }
       };
       this.addNode(graph, authNode);
       this.addEdge(graph, endpointId, authNodeId, 'HAS_AUTH');

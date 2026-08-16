@@ -1,4 +1,4 @@
-import { SecurityGraph, SecurityNode, SecurityEdgeType, SecurityNodeType, Endpoint, DetectedRoute } from '../types';
+import { SecurityGraph, SecurityNode, SecurityEdge, SecurityEdgeType, SecurityNodeType, Endpoint, DetectedRoute } from '../types';
 import { SpecParser } from './spec-parser';
 import { ApiDiscovery } from './api-discovery';
 import { CodeParser, ASTNode } from './code-parser';
