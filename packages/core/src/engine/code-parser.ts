@@ -1,6 +1,5 @@
 import Parser, { SyntaxNode } from 'tree-sitter';
 import TypeScript from 'tree-sitter-typescript';
-import { Logger } from '../utils/logger';
 import { SourceLocation } from '../types';
 
 /**
@@ -19,7 +18,6 @@ export interface ASTNode {
 
 export class CodeParser {
   private parser: Parser;
-  private logger = new Logger('CodeParser');
 
   constructor() {
     this.parser = new Parser();
@@ -29,7 +27,7 @@ export class CodeParser {
   /**
    * Parse source code into a simplified AST.
    */
-  parse(code: string, filePath: string): ASTNode {
+  parse(code: string, _filePath?: string): ASTNode {
     const tree = this.parser.parse(code);
     return this.convertNode(tree.rootNode, code);
   }
@@ -37,10 +35,11 @@ export class CodeParser {
   /**
    * Re-parse after incremental edit.
    */
-  parseWithTree(code: string, oldTree: Parser.Tree, filePath: string) {
+  parseWithTree(code: string, oldTree: Parser.Tree, _filePath?: string) {
     const newTree = this.parser.parse(code, oldTree);
     return this.convertNode(newTree.rootNode, code);
   }
+
 
   /**
    * Convert tree-sitter SyntaxNode to our ASTNode.

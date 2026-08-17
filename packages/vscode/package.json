@@ -83,6 +83,7 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
+    "lint": "eslint src --ext .ts",
     "package": "vsce package"
   },
   "devDependencies": {

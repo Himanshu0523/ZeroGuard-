@@ -1,10 +1,7 @@
 import { SecurityNode, SecurityEdgeType, SecurityGraph } from '../types';
 import { ASTNode } from './code-parser';
-import { Logger } from '../utils/logger';
 
 export class CodeSecurityAnalyzer {
-  private logger = new Logger('CodeSecurityAnalyzer');
-
   /**
    * Analyze a handler AST node and add security nodes/edges to the graph.
    */

@@ -10,7 +10,8 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc -w",
-    "test": "vitest run"
+    "test": "vitest run",
+    "lint": "eslint src --ext .ts"
   },
   "dependencies": {
     "@zeroguard/core": "workspace:*",
