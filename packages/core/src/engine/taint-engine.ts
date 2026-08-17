@@ -1,9 +1,7 @@
 import { ASTNode, CodeParser } from './code-parser';
 import { TaintFlow, TaintSource, TaintSink } from '../types';
-import { Logger } from '../utils/logger';
 
 export class TaintEngine {
-  private logger = new Logger('TaintEngine');
 
   constructor(private parser: CodeParser) {}
 
@@ -132,14 +130,14 @@ export class TaintEngine {
     return 'other';
   }
 
-  private findTaintedVariable(node: ASTNode, taintedVars: Set<string>, assignments: Map<string, ASTNode>): string | undefined {
+  private findTaintedVariable(node: ASTNode, taintedVars: Set<string>, _assignments: Map<string, ASTNode>): string | undefined {
     if (node.type === 'identifier' && taintedVars.has(node.text)) {
       return node.text;
     }
     if (node.type === 'member_expression') {
-      const base = this.parser.findChildByType(node, 'member_expression_object');
-      if (base && base.type === 'identifier' && taintedVars.has(base.text)) {
-        return base.text;
+      const baseNode = node.children[0];
+      if (baseNode && baseNode.type === 'identifier' && taintedVars.has(baseNode.text)) {
+        return baseNode.text;
       }
     }
     if (this.isSource(node)) {
@@ -153,10 +151,10 @@ export class TaintEngine {
   }
 
   private wasSanitized(
-    taintVar: string,
-    node: ASTNode,
-    assignments: Map<string, ASTNode>,
-    sinkNode: ASTNode
+    _taintVar: string,
+    _node: ASTNode,
+    _assignments: Map<string, ASTNode>,
+    _sinkNode: ASTNode
   ): boolean {
     return false;
   }

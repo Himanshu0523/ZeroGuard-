@@ -1,9 +1,7 @@
 import { Rule, RuleCondition, Finding, SecurityGraph, SecurityNode } from '../types';
 import { FactExtractor, FactMap } from './facts';
-import { Logger } from '../utils/logger';
 
 export class RuleEvaluator {
-  private logger = new Logger('RuleEvaluator');
   private factExtractor = new FactExtractor();
 
   constructor(public rules: Rule[]) {}
@@ -52,8 +50,8 @@ export class RuleEvaluator {
   private buildFinding(
     rule: Rule,
     endpoint: SecurityNode,
-    facts: FactMap,
-    graph: SecurityGraph
+    _facts: FactMap,
+    _graph: SecurityGraph
   ): Finding {
     const evidence = rule.evidence.map(ev => ({
       type: ev.type,

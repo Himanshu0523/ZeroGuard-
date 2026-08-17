@@ -35,13 +35,11 @@ export class RouteDetector {
       if (!func) continue;
 
       let methodName: string | undefined;
-      let methodNode: ASTNode;
 
       if (func.type === 'member_expression') {
         const propNode = this.parser.findChildByType(func, 'property_identifier');
         if (!propNode) continue;
         methodName = propNode.text;
-        methodNode = func;
       } else {
         continue;
       }

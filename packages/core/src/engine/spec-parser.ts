@@ -74,7 +74,6 @@ export class SpecParser {
 
     for (const [path, pathItem] of Object.entries(spec.paths || {})) {
       if (!pathItem) continue;
-      const commonParams = pathItem.parameters || [];
       for (const [method, operation] of Object.entries(pathItem)) {
         if (['parameters', 'summary', 'description', 'servers'].includes(method)) continue;
         if (typeof operation !== 'object') continue;
