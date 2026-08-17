@@ -39,9 +39,9 @@ export class CodeSecurityAnalyzer {
       let methodName: string | undefined;
       let objectName: string | undefined;
       if (callee.type === 'member_expression') {
-        const objNode = this.findChildByType(callee, 'member_expression_object');
+        const objNode = callee.children[0];
+        const propNode = callee.children.find(c => c.type === 'property_identifier');
         objectName = objNode?.text ?? '';
-        const propNode = this.findChildByType(callee, 'property_identifier');
         methodName = propNode?.text;
       } else if (callee.type === 'identifier') {
         objectName = '';
@@ -73,9 +73,9 @@ export class CodeSecurityAnalyzer {
       let methodName: string | undefined;
       let objectName: string | undefined;
       if (callee.type === 'member_expression') {
-        const objNode = this.findChildByType(callee, 'member_expression_object');
+        const objNode = callee.children[0];
+        const propNode = callee.children.find(c => c.type === 'property_identifier');
         objectName = objNode?.text ?? '';
-        const propNode = this.findChildByType(callee, 'property_identifier');
         methodName = propNode?.text;
       } else if (callee.type === 'identifier') {
         objectName = '';
@@ -115,11 +115,13 @@ export class CodeSecurityAnalyzer {
 
     if (ownershipPatterns.some(p => p.test(code)) || rolePatterns.some(p => p.test(code))) {
       const authzNodeId = `${endpointId}:authorization`;
+      const matchedPattern = ownershipPatterns.find(p => p.test(code)) ?? rolePatterns.find(p => p.test(code)) ?? /.*/;
+      const matchedText = code.match(matchedPattern)?.[0] ?? '';
       const authzNode: SecurityNode = {
         id: authzNodeId,
         type: 'authorization',
         label: 'Authorization check present',
-        metadata: { pattern: code.match(ownershipPatterns.find(p => p.test(code)) ?? rolePatterns.find(p => p.test(code)) ?? /.*/)?.toString() }
+        metadata: { pattern: matchedText }
       };
       this.addNode(graph, authzNode);
       this.addEdge(graph, endpointId, authzNodeId, 'HAS_AUTHZ');
@@ -171,11 +173,13 @@ export class CodeSecurityAnalyzer {
     ];
     if (authPatterns.some(p => p.test(code))) {
       const authNodeId = `${endpointId}:auth`;
+      const matchedPattern = authPatterns.find(p => p.test(code)) ?? /.*/;
+      const matchedText = code.match(matchedPattern)?.[0] ?? '';
       const authNode: SecurityNode = {
         id: authNodeId,
         type: 'authentication',
         label: 'Authentication middleware present',
-        metadata: { pattern: code.match(authPatterns.find(p => p.test(code)) ?? /.*/)?.toString() }
+        metadata: { pattern: matchedText }
       };
       this.addNode(graph, authNode);
       this.addEdge(graph, endpointId, authNodeId, 'HAS_AUTH');
